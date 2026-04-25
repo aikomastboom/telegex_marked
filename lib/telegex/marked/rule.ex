@@ -20,12 +20,11 @@ defmodule Telegex.Marked.Rule do
     end
   end
 
-  defp using() do
+  defp using do
     quote do
       @behaviour Telegex.Marked.Rule
 
-      alias Telegex.Marked.Node
-      alias Telegex.Marked.{State, InlineState, BlockState}
+      alias Telegex.Marked.{BlockState, InlineState, Node, State}
 
       import Telegex.Marked.{Node, Rule}
     end

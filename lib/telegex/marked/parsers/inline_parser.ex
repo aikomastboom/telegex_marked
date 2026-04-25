@@ -7,11 +7,11 @@ defmodule Telegex.Marked.InlineParser do
 
   alias Telegex.Marked.{
     BoldRule,
-    UnderlineRule,
+    InlineCodeRule,
     ItalicRule,
-    StrikethroughRule,
     LinkRule,
-    InlineCodeRule
+    StrikethroughRule,
+    UnderlineRule
   }
 
   @rule_modules [BoldRule, UnderlineRule, ItalicRule, StrikethroughRule, LinkRule, InlineCodeRule]

@@ -33,7 +33,7 @@ defmodule Telegex.MarkedTest do
     code block
     ```
     \*normal*
-    \_*bold*_
+    \_**bold**_
     \[link](link://path)
     \\
     """
@@ -67,7 +67,7 @@ defmodule Telegex.MarkedTest do
     # code
     # ```
 
-    *<b>continuous markup</b>*
+    <b>continuous markup</b>
     """
 
     assert as_html(markdown) == html
@@ -81,7 +81,7 @@ defmodule Telegex.MarkedTest do
     """
 
     html = ~S"""
-    <i>来自『<b>*_~[]()`\</b>』的验证，请确认问题并选择您认为正确的答案。</i>
+    <i>来自『**_~[]()`\*』的验证，请确认问题并选择您认为正确的答案。</i>
     """
 
     assert as_html(markdown) == html
@@ -138,5 +138,10 @@ defmodule Telegex.MarkedTest do
     """
 
     assert as_html(markdown) == html
+  end
+
+  test "single and double asterisk bold behavior" do
+    assert as_html("*bold*") == "*bold*"
+    assert as_html("**bold**") == "<b>bold</b>"
   end
 end

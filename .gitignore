@@ -24,3 +24,7 @@ telegex_marked-*.tar
 
 # ElixirLS
 /.elixir_ls
+
+# IDE
+/*.iml
+/.idea

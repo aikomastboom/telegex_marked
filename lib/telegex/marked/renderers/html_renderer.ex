@@ -7,7 +7,7 @@ defmodule Telegex.Marked.HTMLRenderer do
 
   @impl true
   def render(document, _options \\ []) do
-    document |> Enum.map(&render_nodes/1) |> Enum.join("")
+    Enum.map_join(document, "", &render_nodes/1)
   end
 
   @doc """
@@ -17,7 +17,7 @@ defmodule Telegex.Marked.HTMLRenderer do
   """
   @spec render_nodes([Node.t()]) :: String.t()
   def render_nodes(nodes) do
-    nodes |> Enum.map(&render_node/1) |> Enum.join("")
+    Enum.map_join(nodes, "", &render_node/1)
   end
 
   @doc """
@@ -48,8 +48,9 @@ defmodule Telegex.Marked.HTMLRenderer do
 
   def render_node(%Node{type: :link, data: data, children: children}) do
     children_html = render_nodes(children)
+    href = Keyword.get(data, :href)
 
-    if href = data |> Keyword.get(:href) do
+    if href do
       "<a href=\"#{href}\">" <> children_html <> "</a>"
     else
       "<a>" <> children_html <> "</a>"
@@ -63,8 +64,9 @@ defmodule Telegex.Marked.HTMLRenderer do
 
   def render_node(%Node{type: :code_block, data: data, children: children}) do
     children_html = render_nodes(children)
+    language = Keyword.get(data, :language)
 
-    if language = data |> Keyword.get(:language) do
+    if language do
       "<pre><code class=\"language-#{language}\">" <> children_html <> "</code></pre>"
     else
       "<pre>" <> children_html <> "</pre>"

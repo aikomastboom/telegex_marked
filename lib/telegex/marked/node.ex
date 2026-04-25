@@ -44,7 +44,7 @@ defmodule Telegex.Marked.Node do
   Create a node of type newline.
   """
   @spec newline_node :: t()
-  def newline_node() do
+  def newline_node do
     %__MODULE__{type: :newline}
   end
 
@@ -52,7 +52,7 @@ defmodule Telegex.Marked.Node do
   Create a node of type newline wrapped in a list.
   """
   @spec newline_children :: [t()]
-  def newline_children() do
+  def newline_children do
     [newline_node()]
   end
 end

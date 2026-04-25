@@ -61,11 +61,11 @@ All Markdown elements supported (including nesting support):
 
 ````elixir
 markdown = """
-*bold*
+**bold**
 _italic_
 __underline__
 ~strikethrough~
-*bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold*
+**bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold**
 [inline URL](http://www.example.com/)
 [inline mention of a user](tg://user?id=123456789)
 `inline fixed-width code`
@@ -103,3 +103,4 @@ assert Telegex.Marked.as_html(markdown) == html
 
 You only need to convert the Markdown content to HTML before sending, and then specify `parse_mode` as `HTML`.
 The general Markdown parser cannot complete this task because the Markdown format supported by Telegram is incomplete and not standard.
+

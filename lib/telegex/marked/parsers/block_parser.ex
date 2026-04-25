@@ -6,7 +6,7 @@ defmodule Telegex.Marked.BlockParser do
   use Telegex.Marked.Parser
 
   alias Telegex.Marked.BlockCodeRule
-  alias Telegex.Marked.{Line, InlineParser}
+  alias Telegex.Marked.{InlineParser, Line}
 
   @rule_modules [BlockCodeRule]
 
@@ -45,10 +45,8 @@ defmodule Telegex.Marked.BlockParser do
 
   @spec nomatch(BlockState.t(), boolean()) :: [Node.t()]
   defp nomatch(state, lastline?) do
-    state.lines
-    |> Enum.at(state.pos)
-    |> (fn %{src: src} -> src end).()
-    |> InlineParser.parse_line(lastline?, 0)
+    %{src: src} = Enum.at(state.lines, state.pos)
+    InlineParser.parse_line(src, lastline?, 0)
   end
 
   @spec parse_node(BlockState.t()) :: {Telegex.Marked.Rule.match_status(), BlockState.t()}

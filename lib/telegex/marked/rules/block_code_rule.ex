@@ -19,7 +19,7 @@ defmodule Telegex.Marked.BlockCodeRule do
     else
       ending_pos =
         lines
-        |> Enum.slice((pos + 1)..-1)
+        |> Enum.slice((pos + 1)..-1//1)
         |> Enum.find_index(fn line ->
           String.starts_with?(line.src, @mark)
         end)
@@ -28,16 +28,15 @@ defmodule Telegex.Marked.BlockCodeRule do
       if ending_pos do
         language =
           if first_line.len > @mlen do
-            String.slice(first_line.src, 3..-1) |> String.trim()
+            String.slice(first_line.src, 3..-1//1) |> String.trim()
           else
             nil
           end
 
         code_block_text =
           lines
-          |> Enum.slice((pos + 1)..(ending_pos - 1))
-          |> Enum.map(fn line -> "#{line.src}" end)
-          |> Enum.join("\n")
+          |> Enum.slice((pos + 1)..(ending_pos - 1)//1)
+          |> Enum.map_join("\n", fn line -> "#{line.src}" end)
 
         state = %{state | ending: ending_pos}
 

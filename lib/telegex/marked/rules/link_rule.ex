@@ -71,7 +71,7 @@ defmodule Telegex.Marked.LinkRule do
 
   @spec find_close_parenthesis_pos(integer(), [String.t()]) :: {:ok, integer()} | nil
   defp find_close_parenthesis_pos(close_bracket_pos, chars) do
-    parentheses_chars = chars |> Enum.slice((close_bracket_pos + 1)..-1)
+    parentheses_chars = chars |> Enum.slice((close_bracket_pos + 1)..-1//1)
 
     pos =
       parentheses_chars

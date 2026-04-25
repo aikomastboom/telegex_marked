@@ -8,7 +8,7 @@ end
 defmodule Telegex.Marked.InlineState do
   @moduledoc false
 
-  alias Telegex.Marked.{Node, Line}
+  alias Telegex.Marked.{Line, Node}
 
   @enforce_keys [:line]
   defstruct line: nil, pos: 0, nodes: []
@@ -37,7 +37,7 @@ end
 defmodule Telegex.Marked.BlockState do
   @moduledoc false
 
-  alias Telegex.Marked.{Node, Line}
+  alias Telegex.Marked.{Line, Node}
 
   @enforce_keys [:lines]
   defstruct lines: [], len: nil, pos: 0, ending: nil, nodes: []

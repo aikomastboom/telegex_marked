@@ -133,9 +133,9 @@ defmodule Telegex.Marked.BlockParserTest do
 
   test "render/1" do
     markdown = """
-    normal1*bold1*normal2*blod2*normal3
-    *bold __underline__ bold*
-    *bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold*
+    normal1**bold1**normal2**blod2**normal3
+    **bold __underline__ bold**
+    **bold _italic bold ~italic bold strikethrough~ __underline italic bold___ bold**
     [inline URL](http://www.example.com/)
     [inline mention of a user](tg://user?id=123456789)
     `inline fixed-width code`
