@@ -144,4 +144,55 @@ defmodule Telegex.MarkedTest do
     assert as_html("*bold*") == "*bold*"
     assert as_html("**bold**") == "<b>bold</b>"
   end
+
+  # Regression: ItalicRule crashed with MatchError when underscore
+  # appeared at index 0 or 1 in the character list after the opening
+  # underscore, because Enum.slice returned fewer than 2 elements.
+  describe "italic rule edge cases" do
+    test "simple italic" do
+      assert as_html("_italic_") == "<i>italic</i>"
+    end
+
+    test "single char italic" do
+      assert as_html("_a_") == "<i>a</i>"
+    end
+
+    test "italic at start of line" do
+      assert as_html("_test_ hello") == "<i>test</i> hello"
+    end
+
+    test "multiple italics" do
+      assert as_html("_a_ and _b_") == "<i>a</i> and <i>b</i>"
+    end
+
+    test "italic mixed with bold" do
+      assert as_html("**bold** with _italic_") == "<b>bold</b> with <i>italic</i>"
+    end
+
+    test "italic next to underline" do
+      assert as_html("_italic_ then __underline__") == "<i>italic</i> then <u>underline</u>"
+    end
+
+    test "underscore in middle of word is not italic" do
+      # Unmatched underscores pass through as-is
+      result = as_html("hello_world_test")
+      assert is_binary(result)
+    end
+
+    test "unclosed italic underscore does not crash" do
+      result = as_html("_unclosed")
+      assert is_binary(result)
+    end
+
+    test "LLM markdown with backticks bold and underscores does not crash" do
+      content =
+        "Your WebDAV root directory `/home/Obsidian` contains **47 files** and **1 directory**:\n" <>
+          "- **Markdown notes**: `baseline_for_front-end_developers.md`, `clojure.md`\n" <>
+          "- **Images**: Several PNG files (Nix screenshots, etc.)\n" <>
+          "- **Other docs**: `exact_book_invoice.md`, `co-sleeper.md`"
+
+      result = as_html(content)
+      assert is_binary(result)
+    end
+  end
 end
