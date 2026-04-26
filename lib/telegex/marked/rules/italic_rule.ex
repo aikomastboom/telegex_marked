@@ -32,10 +32,16 @@ defmodule Telegex.Marked.ItalicRule do
         |> Enum.with_index()
         |> Enum.filter(equals_markup_fun)
         |> Enum.find(fn {_, index} ->
-          # 跳过 underline 的标记符
-          # 如果前一个也是 @markup 但前第二个不是，则不匹配（有且仅有两个 @markup 相连）
-          [before_2, before_1] = Enum.slice(chars, (index - 2)..(index - 1))
-          !(before_1 == @markup && before_2 != @markup)
+          # Skip underline markup sequences:
+          # If the previous char is also @markup but the one before that isn't,
+          # then this is part of a two-char underline sequence — don't match as italic.
+          if index < 2 do
+            # At positions 0 or 1 there can't be a two-char underline before us
+            true
+          else
+            [before_2, before_1] = Enum.slice(chars, (index - 2)..(index - 1))
+            !(before_1 == @markup && before_2 != @markup)
+          end
         end)
         |> elem_or_nil(1)
         |> calculate_end_index(pos)
